@@ -1,5 +1,5 @@
 import logging
-import os
+import os,sys
 from pathlib import Path
 from shutil import rmtree
 from typing import List, Optional, Union
@@ -7,6 +7,15 @@ from typing import List, Optional, Union
 import hydra
 import pytorch_lightning as pl
 from omegaconf import DictConfig, OmegaConf
+
+dir_current_file = os.path.dirname(__file__)
+sys.path.append(dir_current_file)
+dir_parent_1 = os.path.dirname(dir_current_file)
+sys.path.append(dir_parent_1)
+dir_parent_2 = os.path.dirname(dir_parent_1)
+sys.path.append(dir_parent_2)
+dir_parent_3 = os.path.dirname(dir_parent_2)
+sys.path.append(dir_parent_3)
 
 from nuplan.common.utils.s3_utils import is_s3_path
 from nuplan.planning.script.builders.simulation_builder import build_simulations
@@ -36,6 +45,7 @@ CONFIG_NAME = 'default_simulation'
 
 def run_simulation(cfg: DictConfig, planners: Optional[Union[AbstractPlanner, List[AbstractPlanner]]] = None) -> None:
     """
+    规划仿真，入口
     Execute all available challenges simultaneously on the same scenario. Helper function for main to allow planner to
     be specified via config or directly passed as argument.
     :param cfg: Configuration that is used to run the experiment.
@@ -107,7 +117,9 @@ def main(cfg: DictConfig) -> None:
     assert cfg.simulation_log_main_path is None, 'Simulation_log_main_path must not be set when running simulation.'
 
     # Execute simulation with preconfigured planner(s).
+    pass
     run_simulation(cfg=cfg)
+    pass
 
     if is_s3_path(Path(cfg.output_dir)):
         clean_up_s3_artifacts()

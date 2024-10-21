@@ -167,6 +167,7 @@ class Simulation:
         next_iteration = self._time_controller.next_iteration()
 
         # Propagate state
+        # !核心仿真部分
         if next_iteration:
             self._ego_controller.update_state(iteration, next_iteration, ego_state, trajectory)
             self._observations.update_observation(iteration, next_iteration, self._history_buffer)
